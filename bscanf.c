@@ -30,8 +30,8 @@ int bscanf(const char *buffer, const char *format, ...)
   unsigned long *ulong_ptr;
   unsigned short *ushort_ptr;
   unsigned int *uint_ptr;
-  double *double_ptr;
-  float*float_ptr;
+  /*double *double_ptr;
+  float*float_ptr;*/
   char *char_ptr;
   wchar_t *wchar_ptr;
 
@@ -200,30 +200,6 @@ int bscanf(const char *buffer, const char *format, ...)
           int_ptr = va_arg(args, int*);
           _BSCANF_CHECK_NULL(int_ptr);
           *int_ptr = (int) (strtol(buf_ptr, &end_ptr, base));
-        }
-
-        _BSCANF_CHECK_STRTONUM();
-        buf_ptr = end_ptr;
-        num_args_set++;
-
-      } else if ('g' == *fmt_ptr || 'e' == *fmt_ptr || 'f' == *fmt_ptr ||
-                 'G' == *fmt_ptr || 'E' == *fmt_ptr || 'F' == *fmt_ptr) {
-        /* 'g'/'e'/'f': match a float in strtod form. */
-        /* TODO: 'a': match a float in C99 binary floating-point form. */
-
-        _BSCANF_CONSUME_WSPACE();
-
-        if (is_suppressed) {
-          /* Consume the float and ignore it in this case. */
-          strtod(buf_ptr, &end_ptr);
-        } else if ('l' == length_mod) {
-          double_ptr = va_arg(args, double*);
-          _BSCANF_CHECK_NULL(double_ptr);
-          *double_ptr = (double) (strtod(buf_ptr, &end_ptr));
-        } else {
-          float_ptr = va_arg(args, float*);
-          _BSCANF_CHECK_NULL(float_ptr);
-          *float_ptr = (float) (strtod(buf_ptr, &end_ptr));
         }
 
         _BSCANF_CHECK_STRTONUM();
